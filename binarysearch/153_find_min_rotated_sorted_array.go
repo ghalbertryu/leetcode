@@ -1,6 +1,6 @@
 package heetcode
 
-func findMin(nums []int) int {
+func findMinFirst(nums []int) int {
 	minimum := -1
 	for {
 		arrLen := len(nums)
@@ -29,4 +29,30 @@ func findMin(nums []int) int {
 	}
 
 	return minimum
+}
+
+func findMin(nums []int) int {
+	arrLen := len(nums)
+	if arrLen == 0 {
+		panic("array is empty")
+	}
+
+	numsIdx0 := nums[0]
+	if numsIdx0 < nums[arrLen-1] {
+		// sorted
+		return numsIdx0
+	}
+
+	left := 0
+	right := arrLen - 1
+	for right-left > 1 {
+		mid := (left + right) / 2
+		midNum := nums[mid]
+		if numsIdx0 < midNum {
+			left = mid
+		} else {
+			right = mid
+		}
+	}
+	return nums[right]
 }
