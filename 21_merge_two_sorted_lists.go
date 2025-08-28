@@ -1,6 +1,8 @@
 package leetcode
 
-import "log"
+import (
+	"log"
+)
 
 type ListNode struct {
 	Val  int
@@ -29,21 +31,36 @@ func visitNodes(nodeHead *ListNode) {
 }
 
 func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
-	tmpNodeList1 := list1
-	tmpNodeList2 := list2
+	// init retNode and tmpNode
 	var retNode *ListNode
 	var tmpNode *ListNode
-	for tmpNodeList1 != nil && tmpNodeList2 != nil {
-		if tmpNodeList1.Val <= tmpNodeList2.Val {
-			tmpNode.Next = tmpNodeList1
-			tmpNodeList1 = tmpNodeList1.Next
+	if list1.Val <= list2.Val {
+		retNode = list1
+		tmpNode = list1
+		list1 = list1.Next
+	} else {
+		retNode = list2
+		tmpNode = list2
+		list2 = list2.Next
+	}
+
+	for list1 != nil && list2 != nil {
+		if list1.Val <= list2.Val {
+			tmpNode.Next = list1
+			list1 = list1.Next
 		} else {
-			tmpNode.Next = tmpNodeList2
-			tmpNodeList2 = tmpNodeList2.Next
+			tmpNode.Next = list2
+			list2 = list2.Next
 		}
-		if retNode == nil {
-			retNode = tmpNode
-		}
+		tmpNode = tmpNode.Next
+	}
+
+	// 連接剩餘 list
+	if list1 != nil {
+		tmpNode.Next = list1
+	}
+	if list2 != nil {
+		tmpNode.Next = list2
 	}
 
 	return retNode

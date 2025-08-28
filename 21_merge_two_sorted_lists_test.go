@@ -10,7 +10,7 @@ func TestBuildLinkedList(t *testing.T) {
 }
 
 var nodeHead1 = buildLinkedList([]int{1, 2, 4})
-var nodeHead2 = buildLinkedList([]int{1, 3, 4})
+var nodeHead2 = buildLinkedList([]int{1, 3, 4, 8, 10})
 
 func TestMergeTwoLists(t *testing.T) {
 	mergedList := mergeTwoLists(nodeHead1, nodeHead2)
