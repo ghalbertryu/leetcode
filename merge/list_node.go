@@ -20,7 +20,12 @@ func NewListNode(sortedNums []int) *ListNode {
 	return tmpNodePtr
 }
 
-func (nodeHead *ListNode) Visit() {
+func VisitList(nodeHead *ListNode) {
+	if nodeHead == nil {
+		log.Println(nil)
+		return
+	}
+
 	log.Println(nodeHead.Val)
 	for nodeHead.Next != nil {
 		nodeHead = nodeHead.Next

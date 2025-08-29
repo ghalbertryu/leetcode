@@ -9,5 +9,5 @@ var nodeHead2 = NewListNode([]int{1, 3, 4, 8, 10})
 
 func TestMergeTwoLists(t *testing.T) {
 	mergedList := mergeTwoLists(nodeHead1, nodeHead2)
-	mergedList.Visit()
+	VisitList(mergedList)
 }
