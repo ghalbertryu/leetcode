@@ -1,36 +1,13 @@
-package leetcode
-
-import (
-	"log"
-)
-
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
-
-func buildLinkedList(sortedNums []int) *ListNode {
-	var tmpNodePtr *ListNode // default is nil
-	for i := len(sortedNums) - 1; i >= 0; i-- {
-		nodePtr := &ListNode{
-			Val:  sortedNums[i],
-			Next: tmpNodePtr,
-		}
-		tmpNodePtr = nodePtr
-	}
-
-	return tmpNodePtr
-}
-
-func visitNodes(nodeHead *ListNode) {
-	log.Println(nodeHead.Val)
-	for nodeHead.Next != nil {
-		nodeHead = nodeHead.Next
-		log.Println(nodeHead.Val)
-	}
-}
+package merge
 
 func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
+	if list1 == nil {
+		return list2
+	}
+	if list2 == nil {
+		return list1
+	}
+
 	// init retNode and tmpNode
 	var retNode *ListNode
 	var tmpNode *ListNode
