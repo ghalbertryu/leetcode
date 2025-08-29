@@ -16,3 +16,12 @@ func TestMergeKLists(t *testing.T) {
 	})
 	VisitList(mergedList)
 }
+
+func TestMergeKListsUsingHeap(t *testing.T) {
+	mergedList := mergeKListsUsingHeap([]*ListNode{
+		list1,
+		list2,
+		list3,
+	})
+	VisitList(mergedList)
+}
