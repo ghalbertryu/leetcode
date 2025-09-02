@@ -3,30 +3,34 @@ package leetcode
 /*Given a string s, find the length of the longest substring without duplicate characters
  */
 func lengthOfLongestSubstring(s string) int {
-	startByteSubStrLengthCount := make(map[byte]int)
+	byteIdxMap := make(map[byte]int)
 	strByteArr := []byte(s)
 
-	for _, b := range strByteArr {
-		startByteSubStrLengthCount[b] = 1
-		//
-		//if _, isDuplicatedByte := startByteSubStrLengthCount[b]; isDuplicatedByte {
-		//	startByteSubStrLengthCount[b] = 1
-		//} else {
-		//	startByteSubStrLengthCount[b] = 1
-		//}
+	longestSubStrLength := 0
+	subStrHeadIdx := 0
+	for idx, b := range strByteArr {
+		if preByteIdx, exists := byteIdxMap[b]; exists {
+			subStrLen := idx - subStrHeadIdx
+			//log.Println(string(b), subStrLen) // debug
 
-		for character, subStrLen := range startByteSubStrLengthCount {
-			if character != b {
-				startByteSubStrLengthCount[character] = subStrLen + 1
+			if subStrLen > longestSubStrLength {
+				longestSubStrLength = subStrLen
+			}
+
+			// move head index to the next of the previous same byte index
+			for subStrHeadIdx <= preByteIdx {
+				c := strByteArr[subStrHeadIdx]
+				delete(byteIdxMap, c)
+				subStrHeadIdx++
 			}
 		}
+		byteIdxMap[b] = idx
 	}
 
-	ret := 0
-	for _, subStrLen := range startByteSubStrLengthCount {
-		if subStrLen > ret {
-			ret = subStrLen
-		}
+	endStrIdx := len(strByteArr) - 1
+	subStrLen := endStrIdx - subStrHeadIdx + 1
+	if subStrLen > longestSubStrLength {
+		longestSubStrLength = subStrLen
 	}
-	return ret
+	return longestSubStrLength
 }
