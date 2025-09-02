@@ -1,33 +1,32 @@
 package leetcode
 
-import "log"
-
 /*Given a string s, find the length of the longest substring without duplicate characters
  */
 func lengthOfLongestSubstring(s string) int {
+	startByteSubStrLengthCount := make(map[byte]int)
 	strByteArr := []byte(s)
 
-	ret := 0
-	tmpCounter := 0
-	presentedByteMapSet := make(map[byte]struct{})
 	for _, b := range strByteArr {
-		if _, exist := presentedByteMapSet[b]; !exist {
-			log.Println(b)
-			tmpCounter++
-		} else {
-			if tmpCounter > ret {
-				ret = tmpCounter
+		startByteSubStrLengthCount[b] = 1
+		//
+		//if _, isDuplicatedByte := startByteSubStrLengthCount[b]; isDuplicatedByte {
+		//	startByteSubStrLengthCount[b] = 1
+		//} else {
+		//	startByteSubStrLengthCount[b] = 1
+		//}
+
+		for character, subStrLen := range startByteSubStrLengthCount {
+			if character != b {
+				startByteSubStrLengthCount[character] = subStrLen + 1
 			}
-
-			tmpCounter = 1
-			presentedByteMapSet = make(map[byte]struct{}) // reset mapSet
 		}
-
-		presentedByteMapSet[b] = struct{}{}
 	}
 
-	if tmpCounter > ret {
-		ret = tmpCounter
+	ret := 0
+	for _, subStrLen := range startByteSubStrLengthCount {
+		if subStrLen > ret {
+			ret = subStrLen
+		}
 	}
 	return ret
 }
