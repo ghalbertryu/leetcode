@@ -1,4 +1,4 @@
-package leetcode
+package slidingwindow
 
 func longestSubstringWithAtMostKDistinctCharacters(s string, k int) int {
 	left, right := 0, 0
