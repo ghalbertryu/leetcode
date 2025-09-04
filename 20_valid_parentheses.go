@@ -1,47 +1,47 @@
 package leetcode
 
 func isValid(s string) bool {
-	filo := new(FiLo)
+	byteStack := new(Stack)
 	for _, ch := range s {
-		if _, ok := signPairMap[byte(ch)]; ok {
-			filo.Push(byte(ch))
+		if _, ok := bracketsPairMap[byte(ch)]; ok {
+			byteStack.Push(byte(ch))
 		} else {
-			pop := filo.Pop()
-			if signPairMap[pop] != byte(ch) {
+			pop, popOk := byteStack.Pop()
+			if popOk && bracketsPairMap[pop] != byte(ch) {
 				return false
 			}
 		}
 	}
 
-	if filo.Len() != 0 {
+	if byteStack.IsEmpty() {
 		return false
 	}
 	return true
 }
 
-var signPairMap = map[byte]byte{
+var bracketsPairMap = map[byte]byte{
 	'(': ')',
 	'[': ']',
 	'{': '}',
 }
 
-type FiLo []byte
+type Stack []byte
 
-func (o *FiLo) Push(b byte) {
+func (o *Stack) Push(b byte) {
 	*o = append(*o, b)
 }
 
-func (o *FiLo) Pop() byte {
+func (o *Stack) Pop() (byte, bool) {
 	l := len(*o)
 	if l == 0 {
-		return 0
+		return 0, false
 	}
 
 	ret := (*o)[l-1]
 	(*o) = (*o)[:l-1]
-	return ret
+	return ret, true
 }
 
-func (o *FiLo) Len() int {
-	return len(*o)
+func (o *Stack) IsEmpty() bool {
+	return len(*o) == 0
 }
