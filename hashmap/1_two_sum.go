@@ -1,4 +1,4 @@
-package leetcode
+package hashmap
 
 func twoSumFirst(nums []int, target int) []int {
 	sameNumAns := []int{}

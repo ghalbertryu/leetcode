@@ -1,7 +1,7 @@
-package leetcode
+package hashmap
 
-// multi ans
-// index can be used only once
+// find as many as possible disjoint pair
+// whose sum is target
 func twoSumMultiAns(nums []int, target int) [][]int {
 	ans := make([][]int, 0)
 
