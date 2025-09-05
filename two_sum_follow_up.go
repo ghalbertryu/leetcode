@@ -5,28 +5,30 @@ package leetcode
 func twoSumMultiAns(nums []int, target int) [][]int {
 	ans := make([][]int, 0)
 
-	numBIdxAMap := make(map[int][]int, 0)
+	numIdxSliceMap := make(map[int][]int, 0)
 	for i, num := range nums {
-		idxASlice, ok := numBIdxAMap[num]
+		numB := target - num
+		idxASlice, ok := numIdxSliceMap[numB]
 		if ok {
 			popIdxA := idxASlice[len(idxASlice)-1]
 			ans = append(ans, []int{popIdxA, i})
 
+			// update numIdxSliceMap
 			idxASlice = idxASlice[:len(idxASlice)-1]
-			numBIdxAMap[num] = idxASlice
+			numIdxSliceMap[numB] = idxASlice
 			if len(idxASlice) == 0 {
-				delete(numBIdxAMap, num)
+				delete(numIdxSliceMap, numB)
 			}
 			continue
 		}
 
-		numB := target - num
-		numBIdxASlice, ok := numBIdxAMap[numB]
+		// update numIdxSliceMap
+		idxAs, ok := numIdxSliceMap[num]
 		if ok {
-			numBIdxASlice = append(numBIdxASlice, i)
-			numBIdxAMap[numB] = numBIdxASlice
+			idxAs = append(idxAs, i)
+			numIdxSliceMap[num] = idxAs
 		} else {
-			numBIdxAMap[numB] = []int{i}
+			numIdxSliceMap[num] = []int{i}
 		}
 	}
 	return ans

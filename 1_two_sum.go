@@ -37,3 +37,18 @@ func twoSumSecond(nums []int, target int) []int {
 
 	return nil
 }
+
+func twoSumThird(nums []int, target int) []int {
+	numIdxMap := make(map[int]int, 0)
+	for i, num := range nums {
+		numB := target - num
+		idxA, ok := numIdxMap[numB]
+		if ok && idxA != i {
+			return []int{idxA, i}
+		}
+
+		numIdxMap[num] = i
+	}
+
+	return nil
+}
