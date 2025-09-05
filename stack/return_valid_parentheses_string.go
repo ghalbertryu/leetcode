@@ -1,23 +1,23 @@
-package leetcode
+package stack
 
 // 若輸入的字串為合法字串，回傳原始字串
 // 若非合法字串，將他擴展成一個合法字串
-func returnValidParenthesesString(s string) string {
+func convertToValidParenthesesString(s string) string {
 	validStr := ""
 	byteStack := new(Stack)
 	for _, ch := range s {
-		if _, ok := bracketsPairMap[byte(ch)]; ok {
+		if _, ok := bracketsOpenCloseMap[byte(ch)]; ok {
 			// open bracket
 			byteStack.Push(byte(ch))
 			validStr = validStr + string(ch)
 		} else {
 			// close bracket
 			openBracket, popOk := byteStack.Pop()
-			if popOk && bracketsPairMap[openBracket] == byte(ch) {
+			if popOk && bracketsOpenCloseMap[openBracket] == byte(ch) {
 				validStr = validStr + string(ch)
 			} else {
 				byteStack.Push(openBracket)
-				op := bracketsPairMap2[byte(ch)]
+				op := bracketsCloseOpenMap[byte(ch)]
 				validStr = validStr + string(op)
 				validStr = validStr + string(ch)
 			}
@@ -26,13 +26,13 @@ func returnValidParenthesesString(s string) string {
 
 	for !byteStack.IsEmpty() {
 		openBracket, _ := byteStack.Pop()
-		closeBracket := bracketsPairMap[openBracket]
+		closeBracket := bracketsOpenCloseMap[openBracket]
 		validStr = validStr + string(closeBracket)
 	}
 	return validStr
 }
 
-var bracketsPairMap2 = map[byte]byte{
+var bracketsCloseOpenMap = map[byte]byte{
 	')': '(',
 	']': '[',
 	'}': '{',
