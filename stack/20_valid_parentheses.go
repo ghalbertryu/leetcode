@@ -7,13 +7,13 @@ func isValid(s string) bool {
 			byteStack.Push(byte(ch))
 		} else {
 			pop, popOk := byteStack.Pop()
-			if popOk && bracketsOpenCloseMap[pop] != byte(ch) {
+			if !popOk || bracketsOpenCloseMap[pop] != byte(ch) {
 				return false
 			}
 		}
 	}
 
-	if byteStack.IsEmpty() {
+	if !byteStack.IsEmpty() {
 		return false
 	}
 	return true
