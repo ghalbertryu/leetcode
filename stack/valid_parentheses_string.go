@@ -4,7 +4,7 @@ package stack
 // 若非合法字串，將他擴展成一個合法字串
 func convertToValidParenthesesString(s string) string {
 	validStr := ""
-	byteStack := new(Stack)
+	byteStack := new(LinkedStack)
 	for _, ch := range s {
 		if _, ok := bracketsOpenCloseMap[byte(ch)]; ok {
 			// open bracket
