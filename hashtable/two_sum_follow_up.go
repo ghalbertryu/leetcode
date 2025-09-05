@@ -1,4 +1,4 @@
-package hashmap
+package hashtable
 
 // find as many as possible disjoint pair
 // whose sum is target

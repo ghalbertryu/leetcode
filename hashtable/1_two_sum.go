@@ -1,4 +1,4 @@
-package hashmap
+package hashtable
 
 func twoSumFirst(nums []int, target int) []int {
 	sameNumAns := []int{}
