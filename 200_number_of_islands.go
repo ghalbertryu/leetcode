@@ -5,11 +5,22 @@ const (
 	Water = '0'
 )
 
-func numIslands(grid [][]byte) int {
+var (
+	yLen    int
+	xLen    int
+	xMaxIdx int
+	yMaxIdx int
+)
+
+func numIslandsFirst(grid [][]byte) int {
 	islandNum := 0
-	islandsNumGrid := make([][]int, len(grid))
-	for i, row := range grid {
-		islandsNumGrid[i] = make([]int, len(row))
+	yLen = len(grid)
+	xLen = len(grid[0])
+	xMaxIdx = xLen - 1
+	yMaxIdx = yLen - 1
+	islandsNumGrid := make([][]int, yLen)
+	for i, _ := range grid {
+		islandsNumGrid[i] = make([]int, xLen)
 	}
 
 	for y, columns := range grid {
@@ -17,34 +28,96 @@ func numIslands(grid [][]byte) int {
 			if elm == Water {
 				continue
 			}
+			if islandsNumGrid[y][x] > 0 {
+				continue
+			}
 
-			// land
+			// Land
+			// check adjacent
 			tmpX := x
 			tmpY := y
-
-			// check up
-			tmpX = x
-			tmpY = y - 1
-			if tmpX >= 0 && tmpY >= 0 &&
-				islandsNumGrid[tmpY][tmpX] > 0 {
-				islandsNumGrid[y][x] = islandsNumGrid[tmpY][tmpX]
-				continue
-			}
-
-			// check left
+			// left
 			tmpX = x - 1
 			tmpY = y
-			if tmpX >= 0 && tmpY >= 0 &&
+			if islandsNumGrid[y][x] == 0 &&
+				isValidRange(tmpX, tmpY, xMaxIdx, yMaxIdx) &&
 				islandsNumGrid[tmpY][tmpX] > 0 {
 				islandsNumGrid[y][x] = islandsNumGrid[tmpY][tmpX]
-				continue
+			}
+			// up
+			tmpX = x
+			tmpY = y - 1
+			if islandsNumGrid[y][x] == 0 &&
+				isValidRange(tmpX, tmpY, xMaxIdx, yMaxIdx) &&
+				islandsNumGrid[tmpY][tmpX] > 0 {
+				islandsNumGrid[y][x] = islandsNumGrid[tmpY][tmpX]
+			}
+			// right
+			tmpX = x + 1
+			tmpY = y
+			if islandsNumGrid[y][x] == 0 &&
+				isValidRange(tmpX, tmpY, xMaxIdx, yMaxIdx) &&
+				islandsNumGrid[tmpY][tmpX] > 0 {
+				islandsNumGrid[y][x] = islandsNumGrid[tmpY][tmpX]
+			}
+			// down
+			tmpX = x
+			tmpY = y + 1
+			if islandsNumGrid[y][x] == 0 &&
+				isValidRange(tmpX, tmpY, xMaxIdx, yMaxIdx) &&
+				islandsNumGrid[tmpY][tmpX] > 0 {
+				islandsNumGrid[y][x] = islandsNumGrid[tmpY][tmpX]
 			}
 
-			islandNum++
-			islandsNumGrid[y][x] = islandNum
+			if islandsNumGrid[y][x] == 0 {
+				islandNum++
+				islandsNumGrid[y][x] = islandNum
+				markAdjacentLandNum(x, y, islandNum, grid, islandsNumGrid)
+			}
 		}
 	}
 
 	//log.Println(islandsNumGrid) // debug
 	return islandNum
+}
+
+func markAdjacentLandNum(x int, y int, islandNum int, grid [][]byte, islandsNumGrid [][]int) {
+	tmpX := x
+	tmpY := y
+	// left
+	tmpX = x - 1
+	tmpY = y
+	if isValidRange(tmpX, tmpY, xMaxIdx, yMaxIdx) &&
+		islandsNumGrid[tmpY][tmpX] == 0 && grid[tmpY][tmpX] == Land {
+		islandsNumGrid[tmpY][tmpX] = islandNum
+		markAdjacentLandNum(tmpX, tmpY, islandNum, grid, islandsNumGrid)
+	}
+	// up
+	tmpX = x
+	tmpY = y - 1
+	if isValidRange(tmpX, tmpY, xMaxIdx, yMaxIdx) &&
+		islandsNumGrid[tmpY][tmpX] == 0 && grid[tmpY][tmpX] == Land {
+		islandsNumGrid[tmpY][tmpX] = islandNum
+		markAdjacentLandNum(tmpX, tmpY, islandNum, grid, islandsNumGrid)
+	}
+	// right
+	tmpX = x + 1
+	tmpY = y
+	if isValidRange(tmpX, tmpY, xMaxIdx, yMaxIdx) &&
+		islandsNumGrid[tmpY][tmpX] == 0 && grid[tmpY][tmpX] == Land {
+		islandsNumGrid[tmpY][tmpX] = islandNum
+		markAdjacentLandNum(tmpX, tmpY, islandNum, grid, islandsNumGrid)
+	}
+	// down
+	tmpX = x
+	tmpY = y + 1
+	if isValidRange(tmpX, tmpY, xMaxIdx, yMaxIdx) &&
+		islandsNumGrid[tmpY][tmpX] == 0 && grid[tmpY][tmpX] == Land {
+		islandsNumGrid[tmpY][tmpX] = islandNum
+		markAdjacentLandNum(tmpX, tmpY, islandNum, grid, islandsNumGrid)
+	}
+}
+
+func isValidRange(x int, y int, xMaxIdx int, yMaxIdx int) bool {
+	return x >= 0 && y >= 0 && x <= xMaxIdx && y <= yMaxIdx
 }
