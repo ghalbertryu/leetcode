@@ -6,6 +6,43 @@ const (
 )
 
 var (
+	n int
+	m int
+)
+
+func numIslandsOptimize(grid [][]byte) int {
+	islandNum := 0
+	n = len(grid)
+	m = len(grid[0])
+
+	for y, columns := range grid {
+		for x, elm := range columns {
+			if elm == Land {
+				dfs(x, y, grid)
+				islandNum++
+			}
+		}
+	}
+
+	return islandNum
+}
+
+var dx = []int{0, 0, -1, 1}
+var dy = []int{-1, 1, 0, 0}
+
+func dfs(x, y int, grid [][]byte) {
+	grid[y][x] = Water
+	for i := 0; i < 4; i++ {
+		tmpX, tmpY := x+dx[i], y+dy[i]
+		if tmpX >= 0 && tmpX < m &&
+			tmpY >= 0 && tmpY < n &&
+			grid[tmpY][tmpX] == Land {
+			dfs(tmpX, tmpY, grid)
+		}
+	}
+}
+
+var (
 	yLen    int
 	xLen    int
 	xMaxIdx int
