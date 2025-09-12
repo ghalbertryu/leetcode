@@ -12,10 +12,11 @@ func numIslandsAddLand(m, n int, positions [][]int) []int {
 	islandCount := 0
 	for i, p := range positions {
 		// set island
-		landNum := i + 1
 		x := p[0]
 		y := p[1]
+		landNum := i + 1
 		grid[x][y] = landNum
+		disjointSet.Make(landNum)
 
 		// union island
 		islandCount++
@@ -42,31 +43,32 @@ type DisjointSet struct {
 	parentArr []int
 }
 
-func NewDisjointSet(maxIdx int) *DisjointSet {
+func NewDisjointSet(size int) *DisjointSet {
 	ret := &DisjointSet{
-		parentArr: make([]int, maxIdx+1),
-	}
-	for i := 0; i <= maxIdx; i++ {
-		ret.parentArr[i] = i
+		parentArr: make([]int, size+1),
 	}
 	return ret
 }
 
-func (s *DisjointSet) Union(a, b int) bool {
-	parentA := s.FindParent(a)
-	parentB := s.FindParent(b)
-	if parentA != parentB {
-		s.parentArr[parentA] = parentB
+func (s *DisjointSet) Make(x int) {
+	s.parentArr[x] = x
+}
+
+func (s *DisjointSet) Union(x, y int) bool {
+	parentX := s.FindParent(x)
+	parentY := s.FindParent(y)
+	if parentX != parentY {
+		s.parentArr[parentX] = parentY
 		return true
 	}
 	return false
 }
 
-func (s *DisjointSet) FindParent(idx int) int {
-	if s.parentArr[idx] == idx {
-		return idx
+func (s *DisjointSet) FindParent(x int) int {
+	if s.parentArr[x] == x {
+		return x
 	}
 
-	s.parentArr[idx] = s.FindParent(s.parentArr[idx])
-	return s.parentArr[idx]
+	s.parentArr[x] = s.FindParent(s.parentArr[x])
+	return s.parentArr[x]
 }

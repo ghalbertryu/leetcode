@@ -18,10 +18,15 @@ func TestNumIslandsAddLand(t *testing.T) {
 func TestDisjointSetFindParent(t *testing.T) {
 	disjointSet := NewDisjointSet(5)
 
+	disjointSet.Make(1)
+	disjointSet.Make(2)
+	disjointSet.Make(3)
 	log.Println(disjointSet.FindParent(1))
 	log.Println(disjointSet.FindParent(2))
 	log.Println(disjointSet.FindParent(3))
-	log.Println(disjointSet.FindParent(4))
+
+	disjointSet.Make(4)
+	disjointSet.Make(5)
 
 	disjointSet.Union(1, 4)
 	log.Println(disjointSet.FindParent(1))
