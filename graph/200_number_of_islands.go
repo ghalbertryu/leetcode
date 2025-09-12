@@ -1,4 +1,4 @@
-package leetcode
+package graph
 
 const (
 	Land  = '1'
@@ -6,17 +6,17 @@ const (
 )
 
 var (
-	n int
 	m int
+	n int
 )
 
 func numIslandsOptimize(grid [][]byte) int {
 	islandNum := 0
-	n = len(grid)
-	m = len(grid[0])
+	m = len(grid)
+	n = len(grid[0])
 
-	for y, columns := range grid {
-		for x, elm := range columns {
+	for x, columns := range grid {
+		for y, elm := range columns {
 			if elm == Land {
 				dfs(x, y, grid)
 				islandNum++
@@ -31,12 +31,12 @@ var dx = []int{0, 0, -1, 1}
 var dy = []int{-1, 1, 0, 0}
 
 func dfs(x, y int, grid [][]byte) {
-	grid[y][x] = Water
+	grid[x][y] = Water
 	for i := 0; i < 4; i++ {
 		tmpX, tmpY := x+dx[i], y+dy[i]
 		if tmpX >= 0 && tmpX < m &&
 			tmpY >= 0 && tmpY < n &&
-			grid[tmpY][tmpX] == Land {
+			grid[tmpX][tmpY] == Land {
 			dfs(tmpX, tmpY, grid)
 		}
 	}
