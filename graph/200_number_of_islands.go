@@ -30,6 +30,7 @@ func numIslandsOptimize(grid [][]byte) int {
 var dx = []int{0, 0, -1, 1}
 var dy = []int{-1, 1, 0, 0}
 
+// Depth-First-Search
 func dfs(x, y int, grid [][]byte) {
 	grid[x][y] = Water
 	for i := 0; i < 4; i++ {
