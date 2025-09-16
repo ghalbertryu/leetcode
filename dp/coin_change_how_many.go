@@ -1,4 +1,4 @@
-package leetcode
+package dp
 
 func coinChangeHowManyWays(coins []int, amount int) int {
 	dp := make([]int, amount+1)
