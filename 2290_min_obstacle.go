@@ -1,5 +1,71 @@
 package leetcode
 
+import "log"
+
+func minimumObstacles(grid [][]int) int {
+	m = len(grid)
+	n = len(grid[0])
+
+	idGrid := make([][]int, m)
+	idXArr := make([]int, m*n+1)
+	idYArr := make([]int, m*n+1)
+
+	for i, _ := range idGrid {
+		idGrid[i] = make([]int, n)
+	}
+	id := 0
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			idGrid[i][j] = id
+			idXArr[id] = i
+			idYArr[id] = j
+			id++
+		}
+	}
+
+	log.Println(idGrid)
+	log.Println(idXArr)
+	log.Println(idYArr)
+
+	//bfs
+	minCostIdArr := make([]int, m*n+1)
+	for i, _ := range minCostIdArr {
+		minCostIdArr[i] = -1
+	}
+	visitedIdArr := make([]int, m*n+1)
+	adjacentQueue := make([]int, 0)
+	adjacentQueue = append(adjacentQueue, 0)
+	for len(adjacentQueue) > 0 {
+		popId := adjacentQueue[0]
+		adjacentQueue = adjacentQueue[1:]
+		x := idXArr[popId]
+		y := idYArr[popId]
+
+		for i := 0; i < 4; i++ {
+			tmpX, tmpY := x+dx[i], y+dy[i]
+			if tmpX >= 0 && tmpX < m &&
+				tmpY >= 0 && tmpY < n &&
+				visitedIdArr[idGrid[tmpX][tmpY]] == 0 {
+				tmpId := idGrid[tmpX][tmpY]
+				adjacentQueue = append(adjacentQueue, tmpId)
+				visitedIdArr[tmpId] = 1
+			}
+		}
+
+		log.Println(adjacentQueue)
+	}
+
+	return -1
+}
+
+var (
+	m          int
+	n          int
+	endX, endY int
+	dx         = []int{0, 1, -1, 0}
+	dy         = []int{1, 0, 0, -1}
+)
+
 func minimumObstaclesFirst(grid [][]int) int {
 	m = len(grid)
 	n = len(grid[0])
@@ -13,14 +79,6 @@ func minimumObstaclesFirst(grid [][]int) int {
 	minNumOfRemoveObstacles, _ := dfs(grid, 0, 0, path)
 	return minNumOfRemoveObstacles
 }
-
-var (
-	m          int
-	n          int
-	endX, endY int
-	dx         = []int{0, 1, -1, 0}
-	dy         = []int{1, 0, 0, -1}
-)
 
 // dfs
 // return number of remove obstacle

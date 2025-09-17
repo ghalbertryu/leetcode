@@ -6,12 +6,12 @@ import (
 )
 
 func TestMinimumObstaclesFirst(t *testing.T) {
-	//grid1 := [][]int{
-	//	{0, 0, 1, 1, 0},
-	//	{0, 0, 0, 0, 0},
-	//	{0, 0, 1, 1, 0},
-	//}
-	//log.Println(minimumObstaclesFirst(grid1))
+	grid1 := [][]int{
+		{0, 0, 1, 1, 0},
+		{0, 0, 0, 0, 0},
+		{0, 0, 1, 1, 0},
+	}
+	log.Println(minimumObstaclesFirst(grid1))
 	//
 	//grid2 := [][]int{
 	//	{0, 0},
@@ -21,12 +21,12 @@ func TestMinimumObstaclesFirst(t *testing.T) {
 	//}
 	//log.Println(minimumObstaclesFirst(grid2))
 
-	grid3 := [][]int{
-		{0, 0, 1, 1, 1, 1, 0, 0, 0, 1},
-		{0, 1, 1, 1, 1, 1, 1, 0, 1, 1},
-		{1, 1, 0, 1, 1, 1, 1, 0, 1, 0},
-		{0, 0, 1, 1, 1, 1, 0, 0, 1, 1},
-		{1, 0, 1, 0, 0, 0, 1, 1, 1, 0},
-	}
-	log.Println(minimumObstaclesFirst(grid3))
+	//grid3 := [][]int{
+	//	{0, 0, 1, 1, 1, 1, 0, 0, 0, 1},
+	//	{0, 1, 1, 1, 1, 1, 1, 0, 1, 1},
+	//	{1, 1, 0, 1, 1, 1, 1, 0, 1, 0},
+	//	{0, 0, 1, 1, 1, 1, 0, 0, 1, 1},
+	//	{1, 0, 1, 0, 0, 0, 1, 1, 1, 0},
+	//}
+	//log.Println(minimumObstacles(grid3))
 }
