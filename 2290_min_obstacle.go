@@ -1,10 +1,9 @@
 package leetcode
 
-import "log"
-
 func minimumObstacles(grid [][]int) int {
 	m = len(grid)
 	n = len(grid[0])
+	endX, endY = m-1, n-1
 
 	idGrid := make([][]int, m)
 	idXArr := make([]int, m*n+1)
@@ -23,39 +22,48 @@ func minimumObstacles(grid [][]int) int {
 		}
 	}
 
-	log.Println(idGrid)
-	log.Println(idXArr)
-	log.Println(idYArr)
-
 	//bfs
 	minCostIdArr := make([]int, m*n+1)
 	for i, _ := range minCostIdArr {
 		minCostIdArr[i] = -1
 	}
 	visitedIdArr := make([]int, m*n+1)
-	adjacentQueue := make([]int, 0)
-	adjacentQueue = append(adjacentQueue, 0)
+	disIdArr := make([]int, m*n+1)
+	adjacentQueue := make([][]int, 0)
+	adjacentQueue = append(adjacentQueue, []int{0, 0})
 	for len(adjacentQueue) > 0 {
-		popId := adjacentQueue[0]
+		pop := adjacentQueue[0]
 		adjacentQueue = adjacentQueue[1:]
+		popId := pop[0]
+		fromId := pop[1]
 		x := idXArr[popId]
 		y := idYArr[popId]
+		if visitedIdArr[idGrid[x][y]] == 1 {
+			continue
+		}
+		disIdArr[popId] = disIdArr[fromId] + grid[x][y]
+		visitedIdArr[idGrid[x][y]] = 1
 
 		for i := 0; i < 4; i++ {
 			tmpX, tmpY := x+dx[i], y+dy[i]
 			if tmpX >= 0 && tmpX < m &&
-				tmpY >= 0 && tmpY < n &&
-				visitedIdArr[idGrid[tmpX][tmpY]] == 0 {
+				tmpY >= 0 && tmpY < n {
 				tmpId := idGrid[tmpX][tmpY]
-				adjacentQueue = append(adjacentQueue, tmpId)
-				visitedIdArr[tmpId] = 1
+				if grid[tmpX][tmpY] > 0 {
+					// append
+					adjacentQueue = append(adjacentQueue, []int{tmpId, popId})
+				} else {
+					// prepend
+					adjacentQueue = append([][]int{{tmpId, popId}}, adjacentQueue...)
+				}
 			}
 		}
 
-		log.Println(adjacentQueue)
 	}
 
-	return -1
+	//log.Println(disIdArr) // debug
+	endId := idGrid[endX][endY]
+	return disIdArr[endId]
 }
 
 var (
