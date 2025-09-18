@@ -1,14 +1,6 @@
-package leetcode
+package graph
 
 import "container/list"
-
-var (
-	m          int
-	n          int
-	endX, endY int
-	dx         = []int{0, 1, -1, 0}
-	dy         = []int{1, 0, 0, -1}
-)
 
 func minimumObstaclesOptimize(grid [][]int) int {
 	m = len(grid)
@@ -151,14 +143,14 @@ func minimumObstaclesFirst(grid [][]int) int {
 	}
 
 	// path
-	minNumOfRemoveObstacles, _ := dfs(grid, 0, 0, path)
+	minNumOfRemoveObstacles, _ := dfs2290(grid, 0, 0, path)
 	return minNumOfRemoveObstacles
 }
 
 // dfs
 // return number of remove obstacle
 // return true if reach to end X, Y
-func dfs(grid [][]int, x, y int, path [][]int) (int, bool) {
+func dfs2290(grid [][]int, x, y int, path [][]int) (int, bool) {
 	path[x][y] = 1
 	removeCount := 0
 	if grid[x][y] == 1 {
@@ -176,7 +168,7 @@ func dfs(grid [][]int, x, y int, path [][]int) (int, bool) {
 			tmpY >= 0 && tmpY < n &&
 			path[tmpX][tmpY] == 0 { // 確認沒走過
 
-			dfsCount, success := dfs(grid, tmpX, tmpY, path)
+			dfsCount, success := dfs2290(grid, tmpX, tmpY, path)
 			if !success {
 				continue
 			}

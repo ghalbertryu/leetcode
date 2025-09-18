@@ -5,11 +5,6 @@ const (
 	Water = '0'
 )
 
-var (
-	m int
-	n int
-)
-
 func numIslandsOptimize(grid [][]byte) int {
 	islandNum := 0
 	m = len(grid)
@@ -26,9 +21,6 @@ func numIslandsOptimize(grid [][]byte) int {
 
 	return islandNum
 }
-
-var dx = []int{0, 0, -1, 1}
-var dy = []int{-1, 1, 0, 0}
 
 // Depth-First-Search
 func dfs(x, y int, grid [][]byte) {

@@ -38,7 +38,7 @@ func numIslandsAddLand(m, n int, positions [][]int) []int {
 	return ans
 }
 
-// disjoint set
+// disjoint sets
 type DisjointSet struct {
 	parentArr []int
 }
