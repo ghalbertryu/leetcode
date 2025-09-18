@@ -11,7 +11,7 @@ func TestMinimumObstaclesFirst(t *testing.T) {
 		{0, 0, 1, 1, 0},
 		{0, 0, 1, 1, 0},
 	}
-	log.Println(minimumObstacles(grid1))
+	log.Println(minimumObstaclesSecond(grid1))
 
 	grid2 := [][]int{
 		{0, 0},
@@ -19,7 +19,7 @@ func TestMinimumObstaclesFirst(t *testing.T) {
 		{1, 1},
 		{1, 0},
 	}
-	log.Println(minimumObstacles(grid2))
+	log.Println(minimumObstaclesSecond(grid2))
 
 	grid3 := [][]int{
 		{0, 0, 1, 1, 1, 1, 0, 0, 0, 1},
@@ -28,5 +28,5 @@ func TestMinimumObstaclesFirst(t *testing.T) {
 		{0, 0, 1, 1, 1, 1, 0, 0, 1, 1},
 		{1, 0, 1, 0, 0, 0, 1, 1, 1, 0},
 	}
-	log.Println(minimumObstacles(grid3))
+	log.Println(minimumObstaclesSecond(grid3))
 }

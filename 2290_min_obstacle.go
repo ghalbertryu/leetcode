@@ -1,6 +1,14 @@
 package leetcode
 
-func minimumObstacles(grid [][]int) int {
+var (
+	m          int
+	n          int
+	endX, endY int
+	dx         = []int{0, 1, -1, 0}
+	dy         = []int{1, 0, 0, -1}
+)
+
+func minimumObstaclesSecond(grid [][]int) int {
 	m = len(grid)
 	n = len(grid[0])
 	endX, endY = m-1, n-1
@@ -22,11 +30,7 @@ func minimumObstacles(grid [][]int) int {
 		}
 	}
 
-	//bfs
-	minCostIdArr := make([]int, m*n+1)
-	for i, _ := range minCostIdArr {
-		minCostIdArr[i] = -1
-	}
+	// bfs
 	visitedIdArr := make([]int, m*n+1)
 	disIdArr := make([]int, m*n+1)
 	adjacentQueue := make([][]int, 0)
@@ -36,13 +40,17 @@ func minimumObstacles(grid [][]int) int {
 		adjacentQueue = adjacentQueue[1:]
 		popId := pop[0]
 		fromId := pop[1]
-		x := idXArr[popId]
-		y := idYArr[popId]
-		if visitedIdArr[idGrid[x][y]] == 1 {
+		if visitedIdArr[popId] == 1 {
 			continue
 		}
+
+		x := idXArr[popId]
+		y := idYArr[popId]
 		disIdArr[popId] = disIdArr[fromId] + grid[x][y]
 		visitedIdArr[idGrid[x][y]] = 1
+		if x == endX && y == endY {
+			break
+		}
 
 		for i := 0; i < 4; i++ {
 			tmpX, tmpY := x+dx[i], y+dy[i]
@@ -58,21 +66,12 @@ func minimumObstacles(grid [][]int) int {
 				}
 			}
 		}
-
 	}
 
 	//log.Println(disIdArr) // debug
 	endId := idGrid[endX][endY]
 	return disIdArr[endId]
 }
-
-var (
-	m          int
-	n          int
-	endX, endY int
-	dx         = []int{0, 1, -1, 0}
-	dy         = []int{1, 0, 0, -1}
-)
 
 func minimumObstaclesFirst(grid [][]int) int {
 	m = len(grid)
