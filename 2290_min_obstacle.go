@@ -1,5 +1,7 @@
 package leetcode
 
+import "container/list"
+
 var (
 	m          int
 	n          int
@@ -7,6 +9,73 @@ var (
 	dx         = []int{0, 1, -1, 0}
 	dy         = []int{1, 0, 0, -1}
 )
+
+func minimumObstaclesOptimize(grid [][]int) int {
+	m = len(grid)
+	n = len(grid[0])
+	endX, endY = m-1, n-1
+
+	idGrid := make([][]int, m)
+	idLocX := make([]int, m*n+1)
+	idLocY := make([]int, m*n+1)
+	idDis := make([]int, m*n+1)
+	for i, _ := range idGrid {
+		idGrid[i] = make([]int, n)
+	}
+	id := 0
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			idGrid[i][j] = id
+			idLocX[id] = i
+			idLocY[id] = j
+			idDis[id] = -1
+			id++
+		}
+	}
+
+	// bfs
+	idVis := make([]int, m*n+1)
+	dq := list.New()
+	dq.PushFront(0)
+	idDis[0] = 0
+	for dq.Len() > 0 {
+		popId := dq.Remove(dq.Front()).(int)
+		if idVis[popId] == 1 {
+			continue
+		}
+		x := idLocX[popId]
+		y := idLocY[popId]
+		idVis[idGrid[x][y]] = 1
+
+		for i := 0; i < 4; i++ {
+			tmpX, tmpY := x+dx[i], y+dy[i]
+			if tmpX >= 0 && tmpX < m &&
+				tmpY >= 0 && tmpY < n {
+
+				tmpId := idGrid[tmpX][tmpY]
+				dis := idDis[popId]
+				if grid[tmpX][tmpY] > 0 {
+					dis++
+				}
+
+				if idDis[tmpId] == -1 || dis < idDis[tmpId] {
+					idDis[tmpId] = dis
+					if grid[tmpX][tmpY] > 0 {
+						// append
+						dq.PushBack(tmpId)
+					} else {
+						// prepend
+						dq.PushFront(tmpId)
+					}
+				}
+			}
+		}
+	}
+
+	//log.Println(disIdArr) // debug
+	endId := idGrid[endX][endY]
+	return idDis[endId]
+}
 
 func minimumObstaclesSecond(grid [][]int) int {
 	m = len(grid)
