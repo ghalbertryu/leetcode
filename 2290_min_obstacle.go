@@ -102,11 +102,10 @@ func minimumObstaclesSecond(grid [][]int) int {
 	// bfs
 	visitedIdArr := make([]int, m*n+1)
 	disIdArr := make([]int, m*n+1)
-	adjacentQueue := make([][]int, 0)
-	adjacentQueue = append(adjacentQueue, []int{0, 0})
-	for len(adjacentQueue) > 0 {
-		pop := adjacentQueue[0]
-		adjacentQueue = adjacentQueue[1:]
+	dq := list.New()
+	dq.PushFront([]int{0, 0})
+	for dq.Len() > 0 {
+		pop := dq.Remove(dq.Front()).([]int)
 		popId := pop[0]
 		fromId := pop[1]
 		if visitedIdArr[popId] == 1 {
@@ -128,10 +127,10 @@ func minimumObstaclesSecond(grid [][]int) int {
 				tmpId := idGrid[tmpX][tmpY]
 				if grid[tmpX][tmpY] > 0 {
 					// append
-					adjacentQueue = append(adjacentQueue, []int{tmpId, popId})
+					dq.PushBack([]int{tmpId, popId})
 				} else {
 					// prepend
-					adjacentQueue = append([][]int{{tmpId, popId}}, adjacentQueue...)
+					dq.PushFront([]int{tmpId, popId})
 				}
 			}
 		}
