@@ -1,18 +1,20 @@
-package leetcode
+package meeting
 
 import (
 	"slices"
 )
+
+// 給定一些meeting的時間，每個meeting有一個開始時間(start)與結束時間(end)
+// 問要完成這些meeting最少需要幾間會議室
+// 若同一個時間點有兩場meeting在進行，則這兩場meeting需要用不同間會議室
+// 若某一場meeting的結束時間與下一場meeting的開始時間相同，則他們可以使用同一間會議室
 
 type MeetingEvent struct {
 	eventTime int
 	isStart   bool
 }
 
-// 給定一些meeting的時間，每個meeting有一個開始時間(start)與結束時間(end)
-// 問要完成這些meeting最少需要幾間會議室
-// 若同一個時間點有兩場meeting在進行，則這兩場meeting需要用不同間會議室
-// 若某一場meeting的結束時間與下一場meeting的開始時間相同，則他們可以使用同一間會議室
+// sweeping line
 func minMeetingRoomOptimize(meetings []MeetingInterval) int {
 	meetingEvents := make([]MeetingEvent, 0)
 	for _, meeting := range meetings {
@@ -27,7 +29,17 @@ func minMeetingRoomOptimize(meetings []MeetingInterval) int {
 	}
 
 	slices.SortFunc(meetingEvents, func(a, b MeetingEvent) int {
-		return a.eventTime - b.eventTime
+		ret := a.eventTime - b.eventTime
+		if ret == 0 {
+			// end first
+			if !a.isStart && b.isStart {
+				return -1
+			}
+			if a.isStart && !b.isStart {
+				return 1
+			}
+		}
+		return ret
 	})
 
 	ans := 0
