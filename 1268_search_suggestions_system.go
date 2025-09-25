@@ -5,26 +5,8 @@ import (
 	"strings"
 )
 
-func suggestedProducts(products []string, searchWord string) [][]string {
-	slices.SortFunc(products, func(a, b string) int {
-		aArr := []byte(a)
-		bArr := []byte(b)
-		aArrLen := len(aArr)
-		bArrLen := len(bArr)
-		size := aArrLen
-		if size > bArrLen {
-			size = bArrLen
-		}
-
-		for i := 0; i < size; i++ {
-			if aArr[i] == bArr[i] {
-				continue
-			}
-			return int(aArr[i]) - int(bArr[i])
-		}
-		return aArrLen - bArrLen
-	})
-	//log.Println(products)
+func suggestedProductsFirst(products []string, searchWord string) [][]string {
+	slices.Sort(products)
 
 	ans := make([][]string, 0)
 	prefixStr := ""

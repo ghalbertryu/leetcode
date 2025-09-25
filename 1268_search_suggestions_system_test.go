@@ -7,5 +7,5 @@ import (
 
 func TestSuggestedProducts(t *testing.T) {
 	products := []string{"mobile", "mouse", "moneypot", "monitor", "mousepad"}
-	log.Println(suggestedProducts(products, "mouse"))
+	log.Println(suggestedProductsFirst(products, "mouse"))
 }
